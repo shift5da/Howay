@@ -1,0 +1,27 @@
+
+
+<% @articles.each do |article| %>
+
+<div class="article_list_item">
+  <div class="header">
+    <a href="/article/<%= article.id %>"><h3><%= article.title %></h3></a>
+  </div>
+  <p class="text-grey-light">
+    <%= article.abstract %>...
+  </p>
+  <div class="footer">
+    <span><%= article.updated_at.strftime('%F %T') %></span>
+    <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+
+    <% article.tags.each do |tag| %>
+      <a href="#"><%= tag.name %></a>
+    <% end %>
+  </div>
+  <hr>
+</div>
+
+<% end %>
+
+<div class="text-center">
+  <%= will_paginate @articles, renderer: BootstrapPagination::Sinatra %>
+</div>
