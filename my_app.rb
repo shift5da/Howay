@@ -5,10 +5,12 @@ require "sinatra/json"
 require 'will_paginate'
 require 'will_paginate/active_record'
 require "will_paginate-bootstrap"
+require 'securerandom'
 
 
 # 创建一个存放静态文件的目录，主要存放css、js、font、image等文件
 set :public_folder, File.dirname(__FILE__) + '/static'
+set :root, File.dirname(__FILE__)
 
 enable :sessions
 set :session_secret, "My session secret"
@@ -51,6 +53,9 @@ end
 
 class Article < ActiveRecord::Base
   has_and_belongs_to_many :tags
+end
+
+class Image < ActiveRecord::Base
 end
 
 
@@ -245,4 +250,33 @@ get '/setting/articles/:article_id/destroy' do
   @article = Article.find params[:article_id]
   @article.destroy
   redirect '/setting/articles'
+end
+
+
+get '/setting/images' do
+  session[:current_setting_menu] = 'image'
+  @images = Image.order('created_at desc').paginate(:page => params[:page])
+  erb :'setting/image/index'
+end
+
+post '/setting/images' do
+  logger.debug request
+  if params.include? :avatar
+    params[:avatar].each do |avatar|
+
+      filename = avatar[:filename]
+      tempfile = avatar[:tempfile]
+      logger.debug "filename = #{filename}"
+      extension_name = filename[filename.rindex('.')..filename.length]
+      my_image = Image.new
+      # logger.debug "======" + image.methods.to_s
+      my_image.ori_filename = filename
+      my_image.name = SecureRandom.uuid + extension_name
+      my_image.url = "upload_images/" + my_image.name
+      my_image.content_type = avatar[:type]
+      my_image.save
+      File.open("static/" + my_image.url, 'wb') {|f| f.write tempfile.read }
+    end
+  end
+  redirect '/setting/images'
 end
