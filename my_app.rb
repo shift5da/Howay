@@ -222,7 +222,7 @@ post '/setting/articles/new' do
   logger.debug request
   article = Article.new
   article.title = params[:title]
-  article.abstract = params[:title]
+  article.abstract = params[:abstract]
   article.content = params[:content]
   article.tags = Tag.find(params[:tags])
   article.save
@@ -239,7 +239,7 @@ post '/setting/articles/:article_id/edit' do
   logger.debug request
   article = Article.find(params[:article_id])
   article.title = params[:title]
-  article.abstract = params[:title]
+  article.abstract = params[:abstract]
   article.content = params[:content]
   article.tags = Tag.find(params[:tags])
   article.save
