@@ -36,7 +36,7 @@
             <tr>
               <td><%= attachment.ori_filename %></td>
               <td><%= attachment.content_type %></td>
-              <td><%= attachment.url %></td>
+              <td>/<%= attachment.url %></td>
               <td><%= attachment.created_at.strftime('%F %T') %></td>
               <td><a href="/setting/attachments/<%= attachment.id %>/delete" onclick="return confirm('确认删除吗 ?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                 </td>

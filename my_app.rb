@@ -212,7 +212,7 @@ end
 # setting: article
 get '/setting/articles' do
   session[:current_setting_menu] = 'article'
-  @articles = Article.paginate(:page => params[:page])
+  @articles = Article.order('updated_at desc').paginate(:page => params[:page])
   erb :'setting/article/index'
 end
 
