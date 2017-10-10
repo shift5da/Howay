@@ -282,6 +282,7 @@ post '/setting/images' do
       tempfile = avatar[:tempfile]
       logger.debug "filename = #{filename}"
       extension_name = filename[filename.rindex('.')..filename.length]
+      Dir.mkdir "static/upload_images" unless Dir.exist? "static/upload_images"
       my_image = Image.new
       # logger.debug "======" + image.methods.to_s
       my_image.ori_filename = filename
@@ -321,6 +322,7 @@ post '/setting/attachments' do
       filename = avatar[:filename]
       tempfile = avatar[:tempfile]
       extension_name = filename[filename.rindex('.')..filename.length]
+      Dir.mkdir "static/upload_attachments" unless Dir.exist? "static/upload_attachments"
       my_attachment = Attachment.new
       # logger.debug "======" + image.methods.to_s
       my_attachment.ori_filename = filename
