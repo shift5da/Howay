@@ -18,7 +18,6 @@
       <table class="table">
         <thead>
           <tr>
-            <th>#</th>
             <th>名称</th>
             <th>所在标签组</th>
             <th>操作</th>
@@ -27,7 +26,6 @@
         <tbody>
           <% @tags.each do |tag| %>
           <tr>
-            <td><%= tag.id %></td>
             <td><%= tag.name %></td>
             <td><%= tag.tag_group.name if tag.tag_group %></td>
             <td>

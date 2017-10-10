@@ -129,7 +129,7 @@ end
 
 get '/setting/tag_groups' do
   session[:current_setting_menu] = 'tag_group'
-  @tag_groups = TagGroup.paginate(:page => params[:page])
+  @tag_groups = TagGroup.order('id desc').paginate(:page => params[:page])
   erb :'setting/tag_group/index'
 end
 
@@ -170,7 +170,7 @@ end
 # setting: tag
 get '/setting/tags' do
   session[:current_setting_menu] = 'tag'
-  @tags = Tag.paginate(:page => params[:page])
+  @tags = Tag.order('id desc').paginate(:page => params[:page])
   erb :'setting/tag/index'
 end
 

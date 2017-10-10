@@ -23,7 +23,6 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>#</th>
               <th>标题</th>
               <th>文件类型</th>
               <th>文件地址</th>
@@ -35,7 +34,6 @@
             <% @attachments.each do |attachment| %>
 
             <tr>
-              <td><%= attachment.id %></td>
               <td><%= attachment.ori_filename %></td>
               <td><%= attachment.content_type %></td>
               <td><%= attachment.url %></td>
