@@ -58,6 +58,9 @@ end
 class Image < ActiveRecord::Base
 end
 
+class Attachment < ActiveRecord::Base
+end
+
 
 # -----------------------------------------------
 # data
@@ -264,7 +267,7 @@ get '/setting/images/:image_id/delete' do
   image = Image.find(params[:image_id])
 
   unless image.nil?
-    File.delete "static/#{image.url}"
+    File.delete "static/#{image.url}" if File.exist? "static/#{image.url}"
     image.destroy
   end
   redirect '/setting/images'
@@ -290,4 +293,43 @@ post '/setting/images' do
     end
   end
   redirect '/setting/images'
+end
+
+
+get '/setting/attachments' do
+  session[:current_setting_menu] = 'attachment'
+  @attachments = Attachment.order('created_at desc').paginate(:page => params[:page])
+  erb :'setting/attachment/index'
+end
+
+get '/setting/attachments/:attachment_id/delete' do
+
+  attachment = Attachment.find(params[:attachment_id])
+
+  unless attachment.nil?
+    File.delete "static/#{attachment.url}" if File.exist? "static/#{attachment.url}"
+    attachment.destroy
+  end
+  redirect '/setting/attachments'
+end
+
+post '/setting/attachments' do
+  logger.debug request
+  if params.include? :avatar
+    params[:avatar].each do |avatar|
+
+      filename = avatar[:filename]
+      tempfile = avatar[:tempfile]
+      extension_name = filename[filename.rindex('.')..filename.length]
+      my_attachment = Attachment.new
+      # logger.debug "======" + image.methods.to_s
+      my_attachment.ori_filename = filename
+      my_attachment.name = SecureRandom.uuid + extension_name
+      my_attachment.url = "upload_attachments/" + my_attachment.name
+      my_attachment.content_type = avatar[:type]
+      my_attachment.save
+      File.open("static/" + my_attachment.url, 'wb') {|f| f.write tempfile.read }
+    end
+  end
+  redirect '/setting/attachments'
 end
