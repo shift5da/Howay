@@ -224,7 +224,7 @@ post '/setting/articles/new' do
   article.title = params[:title]
   article.abstract = params[:abstract]
   article.content = params[:content]
-  article.tags = Tag.find(params[:tags])
+  article.tags = Tag.find(params[:tags]) if params.include? :tags
   article.save
   redirect '/setting/articles'
 end
@@ -241,7 +241,7 @@ post '/setting/articles/:article_id/edit' do
   article.title = params[:title]
   article.abstract = params[:abstract]
   article.content = params[:content]
-  article.tags = Tag.find(params[:tags])
+  article.tags = Tag.find(params[:tags]) if params.include? :tags
   article.save
   redirect '/setting/articles'
 end
@@ -257,6 +257,17 @@ get '/setting/images' do
   session[:current_setting_menu] = 'image'
   @images = Image.order('created_at desc').paginate(:page => params[:page])
   erb :'setting/image/index'
+end
+
+get '/setting/images/:image_id/delete' do
+
+  image = Image.find(params[:image_id])
+
+  unless image.nil?
+    File.delete "static/#{image.url}"
+    image.destroy
+  end
+  redirect '/setting/images'
 end
 
 post '/setting/images' do

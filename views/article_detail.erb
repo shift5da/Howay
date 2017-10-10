@@ -12,8 +12,9 @@
     <hr>
   </div>
 
-  <div class="body">
-    <%= @article.content %>
+  <div class="body" id="content_body">
+
+
   </div>
 
   <div class="footer">
@@ -21,3 +22,15 @@
   </div>
 
 </div>
+
+<input type="hidden" name="" id="hidden_article_content" value="<%= @article.content %>">
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+  $('#content_body').html(marked($('#hidden_article_content').val()));
+});
+
+
+</script>

@@ -55,6 +55,13 @@
 
 $(document).ready(function() {
     $('#selectTags').select2();
+
+    $('#taContent').markdownEditor({
+      preview: true,
+      onPreview: function (content, callback) {
+        callback(marked(content));
+      }
+    });
 });
 
 

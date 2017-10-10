@@ -20,9 +20,9 @@
             <div class="col-sm-10">
               <select id="selectTags" name="tags[]" multiple="multiple" class='form-control'>
                 <% @tag_groups.each do |tg| %>
-                  <% tg.tags.each do |tag| %>
-                    <option value="<%= tag.id %>"><%= tag.name %></option>
-                  <% end if tg.tags %>
+                <% tg.tags.each do |tag| %>
+                <option value="<%= tag.id %>"><%= tag.name %></option>
+                <% end if tg.tags %>
                 <% end %>
               </select>
             </div>
@@ -52,13 +52,18 @@
 
 <script type="text/javascript">
 
-$(document).ready(function() {
+  $(document).ready(function () {
     $('#selectTags').select2();
-});
 
+    $('#taContent').markdownEditor({
+      preview: true,
+      onPreview: function (content, callback) {
+        callback(marked(content));
+      }
+    });
+  });
 
-function submit_form() {
-  $('#my_form').submit();
-}
-
+  function submit_form() {
+    $('#my_form').submit();
+  }
 </script>
