@@ -69,7 +69,7 @@
           <div class="list-group m-t-1">
 
             <% TagGroup.all.each do |tg|%>
-              <li class="list-group-item"><%= tg.name %></li>
+              <li class="list-group-item bg-c-grey-lighter"><%= tg.name %></li>
               <% tg.tags.each do |tag| %>
 
                   <a href="/?tag=<%= tag.id %>" class="list-group-item p-l-3">
