@@ -1,27 +1,50 @@
 
 
-<div class="article">
+<div class="row">
+  <div class="col-lg-9">
+    <div class="article">
 
-  <div class="header">
-    <h3><%= @article.title %></h3>
-    <span><%= @article.updated_at.strftime('%F %T') %></span>
-    <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
-    <% @article.tags.each do |tag| %>
-      <a href="#"><%= tag.name %></a>
-    <% end %>
-    <hr>
+      <div class="header">
+        <h3><%= @article.title %></h3>
+        <span><%= @article.updated_at.strftime('%F %T') %></span>
+        <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+        <% @article.tags.each do |tag| %>
+          <a href="#"><%= tag.name %></a>
+        <% end %>
+        <hr>
+      </div>
+
+      <div class="body" id="content_body">
+
+
+      </div>
+
+      <div class="footer">
+
+      </div>
+
+    </div>
   </div>
 
-  <div class="body" id="content_body">
+  <div class="col-lg-3">
+    <div class="list-group m-t-1">
 
+      <% TagGroup.all.each do |tg|%>
+        <li class="list-group-item bg-c-grey-lighter"><%= tg.name %></li>
+        <% tg.tags.each do |tag| %>
 
-  </div>
-
-  <div class="footer">
-
+            <a href="/?tag=<%= tag.id %>" class="list-group-item p-l-3">
+              <span class="badge"><%= tag.articles.count %></span>
+              <%= tag.name %>
+            </a>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 
 </div>
+
+
 
 <input type="hidden" name="" id="hidden_article_content" value="<%= @article.content %>">
 
