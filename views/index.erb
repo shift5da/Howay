@@ -1,27 +1,47 @@
 
+<div class="row">
+  <div class="col-lg-9">
+    <% @articles.each do |article| %>
 
-<% @articles.each do |article| %>
+    <div class="article_list_item">
+      <div class="header">
+        <a href="/article/<%= article.id %>"><h3><%= article.title %></h3></a>
+      </div>
+      <p class="text-grey-light">
+        <%= article.abstract %>...
+      </p>
+      <div class="footer">
+        <span><%= article.updated_at.strftime('%F %T') %></span>
+        <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
 
-<div class="article_list_item">
-  <div class="header">
-    <a href="/article/<%= article.id %>"><h3><%= article.title %></h3></a>
-  </div>
-  <p class="text-grey-light">
-    <%= article.abstract %>...
-  </p>
-  <div class="footer">
-    <span><%= article.updated_at.strftime('%F %T') %></span>
-    <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+        <% article.tags.each do |tag| %>
+          <a href="/?tag=<%= tag.id %>"><%= tag.name %></a>
+        <% end %>
+      </div>
+      <hr>
+    </div>
 
-    <% article.tags.each do |tag| %>
-      <a href="/?tag=<%= tag.id %>"><%= tag.name %></a>
     <% end %>
+
+    <div class="text-center">
+      <%= will_paginate @articles, renderer: BootstrapPagination::Sinatra %>
+    </div>
   </div>
-  <hr>
-</div>
 
-<% end %>
+  <div class="col-lg-3">
+    <div class="list-group m-t-1">
 
-<div class="text-center">
-  <%= will_paginate @articles, renderer: BootstrapPagination::Sinatra %>
+      <% TagGroup.all.each do |tg|%>
+        <li class="list-group-item bg-c-grey-lighter"><%= tg.name %></li>
+        <% tg.tags.each do |tag| %>
+
+            <a href="/?tag=<%= tag.id %>" class="list-group-item p-l-3">
+              <span class="badge"><%= tag.articles.count %></span>
+              <%= tag.name %>
+            </a>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
 </div>

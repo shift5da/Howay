@@ -58,32 +58,9 @@
 
     <div class="container">
 
-      <div class="row">
-        <div class="col-lg-9">
-          <div class="content">
-            <%= yield %>
-          </div>
-        </div>
-
-        <div class="col-lg-3">
-          <div class="list-group m-t-1">
-
-            <% TagGroup.all.each do |tg|%>
-              <li class="list-group-item bg-c-grey-lighter"><%= tg.name %></li>
-              <% tg.tags.each do |tag| %>
-
-                  <a href="/?tag=<%= tag.id %>" class="list-group-item p-l-3">
-                    <span class="badge"><%= tag.articles.count %></span>
-                    <%= tag.name %>
-                  </a>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-
+      <div class="content">
+        <%= yield %>
       </div>
-
-
       <hr>
       <div class="footer text-center text-grey m-t-4 p-b-4">
         email: dawu(AT)gmail.com
