@@ -69,10 +69,10 @@
           <div class="list-group m-t-1">
 
             <% TagGroup.all.each do |tg|%>
-              <a href="#" class="list-group-item disabled"><%= tg.name %></a>
+              <li class="list-group-item"><%= tg.name %></li>
               <% tg.tags.each do |tag| %>
 
-                  <a href="/?tag=<%= tag.id %>" class="list-group-item">
+                  <a href="/?tag=<%= tag.id %>" class="list-group-item p-l-3">
                     <span class="badge"><%= tag.articles.count %></span>
                     <%= tag.name %>
                   </a>
